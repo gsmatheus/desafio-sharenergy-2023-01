@@ -10,25 +10,10 @@ export class PrismaClientRepository implements ClientRepository {
   constructor(private prisma: PrismaService) { }
 
   async create(client: Client): Promise<Client> {
-    // @TODO: Implement this method toPrismaClientMapper
-    const { fullName, email, phone, address } = client;
+    const raw = PrismaClientMapper.toPrisma(client);
 
     const createdClient = await this.prisma.client.create({
-      data: {
-        fullName,
-        email,
-        phone,
-        address: {
-          create: {
-            street: address.street,
-            number: address.number,
-            city: address.city,
-            state: address.state,
-            country: address.country,
-            zip: address.zip
-          }
-        }
-      }
+      data: raw,
     });
 
     return PrismaClientMapper.toDomain(createdClient)
