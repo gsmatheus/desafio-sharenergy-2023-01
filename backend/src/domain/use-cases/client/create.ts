@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Client } from "src/domain/entities/client";
-import { ClientAddress } from "src/domain/entities/client-address";
-import { ClientRepository } from "src/domain/repositories/client-repository";
+import { Client } from "@domain/entities/client";
+import { ClientAddress } from "@domain/entities/client-address";
+import { ClientRepository } from "@domain/repositories/client-repository";
 
 export interface CreateClientRequest {
   fullName: string;
