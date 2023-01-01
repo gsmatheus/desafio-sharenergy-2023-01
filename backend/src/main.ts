@@ -1,3 +1,5 @@
+import { ErrorsInterceptor } from '@infra/common/interceptors/errors.interceptor';
+import { ResponseInterceptor } from '@infra/common/interceptors/response.interceptor';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -16,6 +18,8 @@ async function bootstrap() {
   );
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalInterceptors(new ErrorsInterceptor());
 
   await app.listen(3000);
 }
