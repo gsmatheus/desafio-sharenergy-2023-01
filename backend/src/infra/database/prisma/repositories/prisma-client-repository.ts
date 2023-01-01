@@ -1,3 +1,4 @@
+import { IExceptionForbidden, IExceptionNotFound } from "@domain/exceptions/exceptions.interface";
 import { Injectable } from "@nestjs/common";
 import { Client } from "src/domain/entities/client";
 import { ClientRepository } from "src/domain/repositories/client-repository";
@@ -16,7 +17,24 @@ export class PrismaClientRepository implements ClientRepository {
       data: raw,
     });
 
-    return PrismaClientMapper.toDomain(createdClient)
+    return PrismaClientMapper.toDomain(createdClient);
+  }
+
+  async findById(id: string): Promise<Client> {
+    console.log('findById', id);
+
+    const client = await this.prisma.client.findUnique({
+      where: { id },
+      include: {
+        address: true,
+      }
+    });
+
+    if (!client) {
+      throw new IExceptionNotFound('Client not found');
+    }
+
+    return PrismaClientMapper.toDomain(client, client.address);
   }
 
 }

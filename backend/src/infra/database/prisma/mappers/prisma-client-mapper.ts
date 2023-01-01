@@ -1,5 +1,6 @@
 import { Client as RawClient } from "@prisma/client";
 import { Client } from "src/domain/entities/client";
+import { Address as RawAddress } from "@prisma/client"
 
 export class PrismaClientMapper {
 
@@ -22,7 +23,7 @@ export class PrismaClientMapper {
     }
   }
 
-  static toDomain(raw: RawClient): Client {
+  static toDomain(raw: RawClient, rawAddress?: RawAddress): Client {
     return {
       id: raw.id,
       fullName: raw.fullName,
@@ -32,6 +33,16 @@ export class PrismaClientMapper {
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
       addressId: raw.addressId,
+      address: rawAddress && {
+        id: rawAddress.id,
+        street: rawAddress.street,
+        number: rawAddress.number,
+        city: rawAddress.city,
+        state: rawAddress.state,
+        country: rawAddress.country,
+        zip: rawAddress.zip,
+        createdAt: rawAddress.createdAt
+      }
     } as Client;
   }
 }

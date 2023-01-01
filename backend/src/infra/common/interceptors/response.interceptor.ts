@@ -22,9 +22,6 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, ResponseFormat
     const { method, path } = req;
     const { statusCode } = res;
 
-    console.log(`[${method}] ${path} - ${statusCode}`);
-
-
     const now = Date.now();
 
     return next.handle().pipe(
