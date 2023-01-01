@@ -4,6 +4,7 @@ import { ClientAddress } from "@domain/entities/client-address";
 import { ClientRepository } from "@domain/repositories/client-repository";
 
 export interface CreateClientRequest {
+  id: string;
   fullName: string;
   email: string;
   phone: string;
@@ -22,8 +23,9 @@ export class CreateClientUseCase {
   constructor(private readonly clientRepository: ClientRepository) { }
 
   async execute(request: CreateClientRequest) {
-    const { fullName, email, phone, address } = request;
+    const { id, fullName, email, phone, address } = request;
     const client = new Client({
+      id: id || undefined,
       fullName,
       email,
       phone,
