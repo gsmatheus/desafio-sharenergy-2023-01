@@ -1,6 +1,6 @@
 import { ClientRepository } from "@domain/repositories/client-repository";
 import { Injectable } from "@nestjs/common";
-import { Client } from "@prisma/client";
+import { Client } from "@domain/entities/client";
 
 interface FindEmailOrDocumentRequest {
   email: string;

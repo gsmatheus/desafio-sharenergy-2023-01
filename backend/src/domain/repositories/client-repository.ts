@@ -6,4 +6,5 @@ export abstract class ClientRepository {
   abstract findById(id: string): Promise<Client | undefined>;
   abstract findEmailOrDocument(email: string, document: string): Promise<Client | undefined>;
   abstract save(client: Client): Promise<Client>;
+  abstract remove(id: string): Promise<void>;
 }

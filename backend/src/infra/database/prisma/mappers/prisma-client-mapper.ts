@@ -20,7 +20,7 @@ export class PrismaClientMapper {
       phone: client.phone,
       profilePicture: client.profilePicture,
       createdAt: client.createdAt,
-      updatedAt: client.updatedAt,
+      updatedAt: client.updatedAt
     }
   }
 

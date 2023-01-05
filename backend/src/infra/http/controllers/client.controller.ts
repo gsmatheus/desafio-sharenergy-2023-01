@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { CreateClientRequest, CreateClientUseCase } from "@domain/use-cases/client/create-client";
 import { CreateClientBody } from "../dtos/client/create-client-body";
 import { ClientViewModel } from "../view-models/client-view-model";
@@ -8,6 +8,7 @@ import { IExceptionConflict, IExceptionNotFound } from "@domain/exceptions/excep
 import { FindEmailOrDocumentUseCase } from "@domain/use-cases/client/find-email-or-document";
 import { UpdateClientBody } from "../dtos/client/update-client-body";
 import { UpdateClientUseCase } from "@domain/use-cases/client/update-client";
+import { DeleteClientUseCase } from "@domain/use-cases/client/delete-client";
 
 @Controller('client')
 export class ClientController {
@@ -16,6 +17,7 @@ export class ClientController {
     private findClientByIdUseCase: FindClientByIdUseCase,
     private findEmailOrDocumentUseCase: FindEmailOrDocumentUseCase,
     private updateClientUseCase: UpdateClientUseCase,
+    private deleteClientUseCase: DeleteClientUseCase
   ) { }
 
   @Post()
@@ -85,5 +87,20 @@ export class ClientController {
     return {
       client: ClientViewModel.toHTTP(updatedClient)
     };
+  }
+
+  @Delete(':id')
+  async delete(@Param() idClient: FindClientDto) {
+    const { id } = idClient;
+
+    const { client } = await this.findClientByIdUseCase.execute(
+      { id }
+    );
+
+    if (!client) {
+      throw new IExceptionNotFound('Client not found');
+    }
+
+    await this.deleteClientUseCase.execute({ id: client.id });
   }
 }

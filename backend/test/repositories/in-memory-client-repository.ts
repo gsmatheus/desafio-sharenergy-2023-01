@@ -2,7 +2,6 @@ import { Client } from "@domain/entities/client";
 import { ClientRepository } from "@domain/repositories/client-repository";
 
 export class InMemoryClientsRepository implements ClientRepository {
-
   public clients: Client[] = [];
 
   async create(client: Client): Promise<Client> {
@@ -41,5 +40,17 @@ export class InMemoryClientsRepository implements ClientRepository {
     this.clients[clientIndex] = client;
 
     return client;
+  }
+
+  async remove(id: string): Promise<void> {
+    const clientIndex = this.clients.findIndex(
+      (client) => client.id === client.id
+    );
+
+    if (clientIndex === -1) {
+      throw new Error("Client not found");
+    }
+
+    this.clients.splice(clientIndex, 1);
   }
 }

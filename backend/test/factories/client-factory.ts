@@ -3,7 +3,7 @@ import { CreateClientRequest } from "@domain/use-cases/client/create-client";
 import { makeClientAddress } from "./client-address-factory";
 
 // Generate unique email
-function makeUniqueEmail() {
+export function makeUniqueEmail() {
   return `any_email_${Math.random() * 1000}@any_email.com`;
 }
 
@@ -12,7 +12,7 @@ function makeUniqueId() {
   return Math.random().toString(36).substr(2, 25);
 }
 
-function makeUniqueCpf() {
+export function makeUniqueCpf() {
   return Math.random().toString(36).substr(2, 11);
 }
 

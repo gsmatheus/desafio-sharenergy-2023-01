@@ -1,5 +1,5 @@
 import { makeClientAddress } from "@test/factories/client-address-factory";
-import { makeClient } from "@test/factories/client-factory";
+import { makeClient, makeUniqueCpf } from "@test/factories/client-factory";
 import { PrismaService } from "../prisma.service";
 import { PrismaClientRepository } from "./prisma-client-repository";
 
@@ -59,14 +59,30 @@ describe('PrismaClientRepository', () => {
       makeClient({ id: undefined }), makeClientAddress()
     );
 
+    const uniqueCpf = makeUniqueCpf()
     client.fullName = 'New Name';
-    client.document = 'New Document';
+    client.document = uniqueCpf;
 
     const updatedClient = await prismaClientRepository.save(client);
 
     expect(updatedClient).toBeTruthy();
     expect(updatedClient.fullName).toEqual('New Name');
-    expect(updatedClient.document).toEqual('New Document');
+    expect(updatedClient.document).toEqual(uniqueCpf);
   });
 
+  it('should be able delete a client', async () => {
+    const prisma = new PrismaService();
+    const prismaClientRepository = new PrismaClientRepository(prisma);
+
+    const client = await prismaClientRepository.create(
+      makeClient({ id: undefined }), makeClientAddress()
+    );
+
+    await prismaClientRepository.remove(client.id);
+
+    await expect(
+      prismaClientRepository.findById(client.id)
+    ).rejects.toThrow();
+  })
+  
 });

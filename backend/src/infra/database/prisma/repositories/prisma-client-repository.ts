@@ -23,7 +23,9 @@ export class PrismaClientRepository implements ClientRepository {
 
   async findById(id: string): Promise<Client> {
     const client = await this.prisma.client.findUnique({
-      where: { id },
+      where: {
+        id
+      },
       include: {
         address: true,
       }
@@ -73,5 +75,23 @@ export class PrismaClientRepository implements ClientRepository {
     });
 
     return PrismaClientMapper.toDomain(updatedClient);
+  }
+
+  async remove(id: string): Promise<void> {
+    const client = await this.prisma.client.findUnique({
+      where: { id },
+    });
+
+    if (!client) {
+      throw new IExceptionNotFound('Client not found');
+    }
+
+    await this.prisma.address.deleteMany({
+      where: { clientId: id },
+    });
+
+    await this.prisma.client.delete({
+      where: { id },
+    })
   }
 }
