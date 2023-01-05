@@ -32,4 +32,14 @@ export class InMemoryClientsRepository implements ClientRepository {
 
     return client;
   }
+
+  async save(client: Client): Promise<Client> {
+    const clientIndex = this.clients.findIndex(
+      (client) => client.id === client.id
+    );
+
+    this.clients[clientIndex] = client;
+
+    return client;
+  }
 }

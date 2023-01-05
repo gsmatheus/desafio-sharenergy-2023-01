@@ -10,7 +10,21 @@ interface toDomainResponse {
 
 export class PrismaClientMapper {
 
-  static toPrisma(client: Client, clientAddress: ClientAddress) {
+  static toPrisma(client: Client) {
+    return {
+      id: client.id,
+      fullName: client.fullName,
+      document: client.document,
+      documentType: client.documentType,
+      email: client.email,
+      phone: client.phone,
+      profilePicture: client.profilePicture,
+      createdAt: client.createdAt,
+      updatedAt: client.updatedAt,
+    }
+  }
+
+  static toPrismaWithAddress(client: Client, clientAddress: ClientAddress) {
     return {
       id: client.id,
       fullName: client.fullName,

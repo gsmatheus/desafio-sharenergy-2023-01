@@ -4,6 +4,7 @@ import { CreateClientUseCase } from "@domain/use-cases/client/create-client";
 import { ClientController } from "./controllers/client.controller";
 import { FindClientByIdUseCase } from "@domain/use-cases/client/get-client-by-id";
 import { FindEmailOrDocumentUseCase } from "@domain/use-cases/client/find-email-or-document";
+import { UpdateClientUseCase } from "@domain/use-cases/client/update-client";
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { FindEmailOrDocumentUseCase } from "@domain/use-cases/client/find-email-
   providers: [
     CreateClientUseCase,
     FindClientByIdUseCase,
-    FindEmailOrDocumentUseCase
+    FindEmailOrDocumentUseCase,
+    UpdateClientUseCase
   ],
 })
 export class HttpModule { }

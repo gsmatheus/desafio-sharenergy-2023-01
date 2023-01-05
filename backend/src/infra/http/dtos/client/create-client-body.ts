@@ -1,11 +1,6 @@
 import { DocumentType } from "@prisma/client";
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { ClientAddressDto } from "./address-client-dto";
-
-export enum EDocumentType  {
-  CPF = "CPF",
-  CNPJ = "CNPJ"
-}
 
 export class CreateClientBody {
   @IsNotEmpty()

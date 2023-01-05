@@ -51,4 +51,22 @@ describe('PrismaClientRepository', () => {
     ).rejects.toThrow();
   });
 
+  it('should be able update a client', async () => {
+    const prisma = new PrismaService();
+    const prismaClientRepository = new PrismaClientRepository(prisma);
+
+    const client = await prismaClientRepository.create(
+      makeClient({ id: undefined }), makeClientAddress()
+    );
+
+    client.fullName = 'New Name';
+    client.document = 'New Document';
+
+    const updatedClient = await prismaClientRepository.save(client);
+
+    expect(updatedClient).toBeTruthy();
+    expect(updatedClient.fullName).toEqual('New Name');
+    expect(updatedClient.document).toEqual('New Document');
+  });
+
 });

@@ -12,7 +12,7 @@ export class PrismaClientRepository implements ClientRepository {
   constructor(private prisma: PrismaService) { }
 
   async create(client: Client, clientAddress: ClientAddress): Promise<Client> {
-    const raw = PrismaClientMapper.toPrisma(client, clientAddress);
+    const raw = PrismaClientMapper.toPrismaWithAddress(client, clientAddress);
 
     const createdClient = await this.prisma.client.create({
       data: raw,
@@ -61,5 +61,17 @@ export class PrismaClientRepository implements ClientRepository {
     });
 
     return client ? PrismaClientMapper.toDomainWithAddress(client) : undefined;
+  }
+
+  async save(client: Client): Promise<Client> {
+    const raw = PrismaClientMapper.toPrisma(client);
+    delete raw.id
+
+    const updatedClient = await this.prisma.client.update({
+      where: { id: client.id },
+      data: raw,
+    });
+
+    return PrismaClientMapper.toDomain(updatedClient);
   }
 }
