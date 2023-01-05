@@ -11,5 +11,7 @@ export function makeClientAddress(
     zip: 'any_zip',
     number: 'any_number',
     createdAt: new Date(),
+    isDefault: true,
+    clientId: 'any_clientId',
   } as ClientAddress;
 }
