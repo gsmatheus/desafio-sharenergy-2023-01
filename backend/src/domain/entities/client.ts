@@ -1,17 +1,19 @@
 import { Replace } from "@helpers/replace";
-import { ClientAddress } from "./client-address";
+import { DocumentType } from "@prisma/client";
+import { Address as RawAddress } from "@prisma/client"
 
 export interface ClientProps {
   id?: string;
   fullName: string;
+  document: string;
+  documentType: DocumentType;
   email: string;
   phone: string;
   profilePicture?: string;
   createdAt?: Date;
   updatedAt?: Date;
 
-  address: ClientAddress;
-  addressId?: string;
+  address?: RawAddress[]
 }
 
 export class Client {
@@ -30,6 +32,14 @@ export class Client {
 
   public get fullName(): string {
     return this.props.fullName;
+  }
+
+  public get document(): string {
+    return this.props.document;
+  }
+
+  public get documentType(): DocumentType {
+    return this.props.documentType;
   }
 
   public get email(): string {
@@ -52,12 +62,20 @@ export class Client {
     return this.props.updatedAt;
   }
 
-  public get addressId(): string {
-    return this.props.addressId;
+  public get address(): RawAddress[] {
+    return this.props.address;
   }
 
   public set fullName(fullName: string) {
     this.props.fullName = fullName;
+  }
+
+  public set document(document: string) {
+    this.props.document = document;
+  }
+
+  public set documentType(documentType: DocumentType) {
+    this.props.documentType = documentType;
   }
 
   public set email(email: string) {
@@ -76,15 +94,7 @@ export class Client {
     this.props.updatedAt = new Date();
   }
 
-  public get address(): ClientAddress {
-    return this.props.address;
-  }
-
-  public set address(address: ClientAddress) {
+  public set address(address: RawAddress[]) {
     this.props.address = address;
-  }
-
-  public set addressId(addressId: string) {
-    this.props.addressId = addressId;
   }
 }

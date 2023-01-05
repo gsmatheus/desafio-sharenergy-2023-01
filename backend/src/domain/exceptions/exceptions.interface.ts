@@ -3,6 +3,7 @@ export enum EException {
   UNAUTHORIZED = 'UNAUTHORIZED',
   FORBIDDEN = 'FORBIDDEN',
   UNPROCESSABLE_ENTITY = 'UNPROCESSABLE_ENTITY',
+  CONFLICT = 'CONFLICT',
 }
 
 export class IExceptionNotFound extends Error {
@@ -43,4 +44,14 @@ export class IExceptionUnprocessableEntity extends Error {
 
   code_error = EException.UNPROCESSABLE_ENTITY;
   status = 422;
+}
+
+export class IExceptionConflict extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ConflictException';
+  }
+
+  code_error = EException.CONFLICT;
+  status = 409;
 }

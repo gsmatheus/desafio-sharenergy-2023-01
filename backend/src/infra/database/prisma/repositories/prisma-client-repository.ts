@@ -1,3 +1,4 @@
+import { ClientAddress } from "@domain/entities/client-address";
 import { IExceptionForbidden, IExceptionNotFound } from "@domain/exceptions/exceptions.interface";
 import { Injectable } from "@nestjs/common";
 import { Client } from "src/domain/entities/client";
@@ -10,8 +11,8 @@ export class PrismaClientRepository implements ClientRepository {
 
   constructor(private prisma: PrismaService) { }
 
-  async create(client: Client): Promise<Client> {
-    const raw = PrismaClientMapper.toPrisma(client);
+  async create(client: Client, clientAddress: ClientAddress): Promise<Client> {
+    const raw = PrismaClientMapper.toPrisma(client, clientAddress);
 
     const createdClient = await this.prisma.client.create({
       data: raw,
@@ -21,8 +22,6 @@ export class PrismaClientRepository implements ClientRepository {
   }
 
   async findById(id: string): Promise<Client> {
-    console.log('findById', id);
-
     const client = await this.prisma.client.findUnique({
       where: { id },
       include: {
@@ -34,7 +33,33 @@ export class PrismaClientRepository implements ClientRepository {
       throw new IExceptionNotFound('Client not found');
     }
 
-    return PrismaClientMapper.toDomain(client, client.address);
+    return PrismaClientMapper.toDomainWithAddress(client);
   }
 
+  async findByEmail(email: string): Promise<Client | undefined> {
+    const client = await this.prisma.client.findUnique({
+      where: { email },
+      include: {
+        address: true,
+      }
+    });
+
+    return client ? PrismaClientMapper.toDomainWithAddress(client) : undefined;
+  }
+
+  async findEmailOrDocument(email: string, document: string): Promise<Client> {
+    const client = await this.prisma.client.findFirst({
+      where: {
+        OR: [
+          { email, },
+          { document, }
+        ]
+      },
+      include: {
+        address: true,
+      }
+    });
+
+    return client ? PrismaClientMapper.toDomainWithAddress(client) : undefined;
+  }
 }

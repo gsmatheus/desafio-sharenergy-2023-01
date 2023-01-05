@@ -28,4 +28,14 @@ describe('PrismaClientRepository', () => {
     expect(clientById).toBeTruthy();
     expect(clientById.id).toEqual(client.id);
   });
+
+  it('should not be able to get a client by id if it does not exist', async () => {
+    const prisma = new PrismaService();
+    const prismaClientRepository = new PrismaClientRepository(prisma);
+
+    await expect(
+      prismaClientRepository.findById('invalid-id')
+    ).rejects.toThrow();
+  });
+
 });

@@ -3,6 +3,7 @@ import { Module } from "@nestjs/common";
 import { CreateClientUseCase } from "@domain/use-cases/client/create-client";
 import { ClientController } from "./controllers/client.controller";
 import { FindClientByIdUseCase } from "@domain/use-cases/client/get-client-by-id";
+import { FindEmailOrDocumentUseCase } from "@domain/use-cases/client/find-email-or-document";
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { FindClientByIdUseCase } from "@domain/use-cases/client/get-client-by-id
   ],
   providers: [
     CreateClientUseCase,
-    FindClientByIdUseCase
+    FindClientByIdUseCase,
+    FindEmailOrDocumentUseCase
   ],
 })
 export class HttpModule { }
