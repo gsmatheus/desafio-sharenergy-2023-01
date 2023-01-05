@@ -8,7 +8,9 @@ export interface ClientAddressProps {
   country: string;
   zip: string;
   number: string;
+  isDefault?: boolean;
   createdAt?: Date;
+  clientId?: string;
 }
 
 export class ClientAddress {
@@ -18,6 +20,7 @@ export class ClientAddress {
     this.props = {
       ...props,
       createdAt: props.createdAt || new Date(),
+      isDefault: props.isDefault || true,
     }
   }
 
@@ -53,6 +56,14 @@ export class ClientAddress {
     return this.props.createdAt;
   }
 
+  public get isDefault(): boolean {
+    return this.props.isDefault;
+  }
+
+  public get clientId(): string {
+    return this.props.clientId;
+  }
+
   public set street(street: string) {
     this.props.street = street;
   }
@@ -76,4 +87,13 @@ export class ClientAddress {
   public set number(number: string) {
     this.props.number = number;
   }
+
+  public set isDefault(isDefault: boolean) {
+    this.props.isDefault = isDefault;
+  }
+
+  public set clientId(clientId: string) {
+    this.props.clientId = clientId;
+  }
+
 }

@@ -8,9 +8,9 @@ describe('PrismaClientRepository', () => {
     const prisma = new PrismaService();
     const prismaClientRepository = new PrismaClientRepository(prisma);
 
-    const client = await prismaClientRepository.create(makeClient(
-      { id: undefined, address: makeClientAddress() }
-    ));
+    const client = await prismaClientRepository.create(
+      makeClient({ id: undefined }), makeClientAddress()
+    );
 
     expect(client).toBeTruthy();
   });
@@ -19,9 +19,9 @@ describe('PrismaClientRepository', () => {
     const prisma = new PrismaService();
     const prismaClientRepository = new PrismaClientRepository(prisma);
 
-    const client = await prismaClientRepository.create(makeClient(
-      { id: undefined, address: makeClientAddress() }
-    ));
+    const client = await prismaClientRepository.create(
+      makeClient({ id: undefined }), makeClientAddress()
+    );
 
     const clientById = await prismaClientRepository.findById(client.id);
 
@@ -35,6 +35,19 @@ describe('PrismaClientRepository', () => {
 
     await expect(
       prismaClientRepository.findById('invalid-id')
+    ).rejects.toThrow();
+  });
+
+  it('should duplicate a email error if email or document already exists', async () => {
+    const prisma = new PrismaService();
+    const prismaClientRepository = new PrismaClientRepository(prisma);
+
+    const client = makeClient({ id: undefined });
+
+    await prismaClientRepository.create(client, makeClientAddress());
+
+    await expect(
+      prismaClientRepository.create(client, makeClientAddress())
     ).rejects.toThrow();
   });
 

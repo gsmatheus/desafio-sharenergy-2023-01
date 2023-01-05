@@ -1,3 +1,4 @@
+import { makeClientAddress } from "@test/factories/client-address-factory";
 import { Client } from "./client";
 import { ClientAddress } from "./client-address";
 
@@ -6,18 +7,13 @@ describe('Client', () => {
     const client = new Client({
       id: 'any_id',
       fullName: 'any_fullName',
+      document: 'any_document',
+      documentType: "CPF",
       email: 'any_email',
       phone: 'any_phone',
-      addressId: 'any_addressId',
-      address: new ClientAddress({
-        id: 'any_id',
-        street: 'any_street',
-        number: 'any_number',
-        city: 'any_city',
-        state: 'any_state',
-        country: 'any_country',
-        zip: 'any_zip',
-      })
+      address: [
+        makeClientAddress({ clientId: 'any_id' })
+      ]
     })
 
     expect(client).toBeTruthy();

@@ -18,6 +18,7 @@ export interface CreateClientRequest {
     country: string;
     zip: string;
     number: string;
+    isDefault?: boolean;
   }
 }
 
@@ -46,9 +47,10 @@ export class CreateClientUseCase {
         country: address.country,
         zip: address.zip,
         number: address.number,
+        isDefault: address.isDefault || true,
       }),
     );
 
-    return { client };
+    return { client, address };
   }
 }

@@ -1,4 +1,4 @@
-import { makeClient } from "@test/factories/client-factory";
+import { makeClientWithAddress } from "@test/factories/client-factory";
 import { InMemoryClientsRepository } from "@test/repositories/in-memory-client-repository";
 import { randomUUID } from "crypto";
 import { CreateClientUseCase } from "./create-client";
@@ -10,9 +10,7 @@ describe('GetClientById', () => {
     const createClient = new CreateClientUseCase(clientRepository);
     const getClientById = new FindClientByIdUseCase(clientRepository);
 
-    const { client } = await createClient.execute(makeClient(
-      { id: randomUUID() }
-    ));
+    const { client } = await createClient.execute(makeClientWithAddress());
 
     const clientById = await getClientById.execute({
       id: client.id

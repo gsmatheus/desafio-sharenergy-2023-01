@@ -10,6 +10,8 @@ describe('ClientAddress', () => {
       state: 'any_state',
       country: 'any_country',
       zip: 'any_zip',
+      isDefault: true,
+      clientId: 'any_clientId',
     })
 
     expect(clientAddress).toBeTruthy();
