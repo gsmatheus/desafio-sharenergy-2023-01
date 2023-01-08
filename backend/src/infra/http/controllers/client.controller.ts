@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { CreateClientRequest, CreateClientUseCase } from "@domain/use-cases/client/create-client";
 import { CreateClientBody } from "../dtos/client/create-client-body";
 import { ClientViewModel } from "../view-models/client-view-model";
@@ -9,6 +9,7 @@ import { FindEmailOrDocumentUseCase } from "@domain/use-cases/client/find-email-
 import { UpdateClientBody } from "../dtos/client/update-client-body";
 import { UpdateClientUseCase } from "@domain/use-cases/client/update-client";
 import { DeleteClientUseCase } from "@domain/use-cases/client/delete-client";
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller('client')
 export class ClientController {
@@ -47,6 +48,7 @@ export class ClientController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   async get(@Param() idClient: FindClientDto) {
     const { id } = idClient;
 
